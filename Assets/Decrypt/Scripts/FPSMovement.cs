@@ -7,7 +7,6 @@ public class FPSMovement : MonoBehaviour
     private CharacterController characterController;
 
     public float moveSpeed = 5.0f;
-    public float gravity = 9.8f;
     public float mouseLookScalar = 5.0f;
     public float jumpForce = 5.0f;
 
@@ -47,7 +46,7 @@ public class FPSMovement : MonoBehaviour
         {
             IsMouseLocked = false;
         }
-        else if (Input.GetMouseButtonDown(1))
+        else if (Input.GetMouseButtonDown(0))
         {
             IsMouseLocked = true;
         }
@@ -69,7 +68,7 @@ public class FPSMovement : MonoBehaviour
         velocity.x = inputVelocity.x;
         velocity.z = inputVelocity.z;
 
-        velocity.y = Mathf.Max(velocity.y - gravity * Time.deltaTime, -100.0f);
+        velocity.y = Mathf.Max(velocity.y - Systems.Instance.Config.gravity * Time.deltaTime, -100.0f);
 
         if (Input.GetButtonDown("Jump") && characterController.isGrounded)
         {
