@@ -9,6 +9,7 @@ public class FPSMovement : MonoBehaviour
     public float moveSpeed = 5.0f;
     public float gravity = 9.8f;
     public float mouseLookScalar = 5.0f;
+    public float jumpForce = 5.0f;
 
 
     private Vector3 velocity = Vector3.zero;
@@ -58,7 +59,7 @@ public class FPSMovement : MonoBehaviour
         float mouseLookY = Input.GetAxis("Mouse Y");
 
         yaw += mouseLookX * mouseLookScalar * Time.deltaTime;
-        transform.rotation = Quaternion.AngleAxis(yaw, Vector3.up);
+        transform.localRotation = Quaternion.AngleAxis(yaw, Vector3.up);
 
         pitch = Mathf.Clamp(pitch - mouseLookY * mouseLookScalar * Time.deltaTime, -89.9f, 89.9f);
         pivotTransform.localRotation = Quaternion.AngleAxis(pitch, Vector3.right);
@@ -68,13 +69,11 @@ public class FPSMovement : MonoBehaviour
         velocity.x = inputVelocity.x;
         velocity.z = inputVelocity.z;
 
-        if (characterController.isGrounded)
+        velocity.y = Mathf.Max(velocity.y - gravity * Time.deltaTime, -100.0f);
+
+        if (Input.GetButtonDown("Jump") && characterController.isGrounded)
         {
-            velocity.y = 0.0f;
-        }
-        else
-        {
-            velocity.y -= gravity * Time.deltaTime;
+            velocity.y = jumpForce;
         }
 
         characterController.Move(velocity * Time.deltaTime);
