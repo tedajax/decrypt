@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4388777029020819845}
   - component: {fileID: 4388777029020819847}
   m_Layer: 0
-  m_Name: Character
+  m_Name: FPS_Character_prototype
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,13 +60,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4388777029020819866}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1265b0461ad5dac4aa49203ebb9099d1, type: 3}
+  m_Script: {fileID: 11500000, guid: e7f3289de609c85458f6d4f0bd0e23a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pivotTransform: {fileID: 4388777029116143598}
   moveSpeed: 5
-  gravity: 9.8
   mouseLookScalar: 180
+  jumpForce: 5
 --- !u!1 &4388777029116143599
 GameObject:
   m_ObjectHideFlags: 0
