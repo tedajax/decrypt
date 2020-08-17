@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: ConfigData
   m_EditorClassIdentifier: 
   characterPrefab: {fileID: 4388777029020819866, guid: 7569ddfe3184214478a5c28f33e3e4b2, type: 3}
+  cameraPrefab: {fileID: 3955952923336465534, guid: 914141e49ca75df498993ac9e9914f16, type: 3}
   gravity: 9.8

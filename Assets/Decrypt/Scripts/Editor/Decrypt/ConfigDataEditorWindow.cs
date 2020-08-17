@@ -31,6 +31,12 @@ public class ConfigDataEditorWindow : SingletonDataEditorWindow
                     configData.characterPrefab,
                     typeof(GameObject),
                     false) as GameObject;
+
+                configData.cameraPrefab = EditorGUILayout.ObjectField(
+                    "camera prefab:",
+                    configData.cameraPrefab,
+                    typeof(GameObject),
+                    false) as GameObject;
             }
             EditorGUILayout.EndVertical();
 
