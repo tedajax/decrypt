@@ -8,6 +8,7 @@ public interface IUnit
     float LookHeading { get; set; }
     Quaternion LookRotation { get; }
     Transform HeadTransform { get; }
+    Transform UnitTransform { get; }
 }
 
 public class Unit : MonoBehaviour, IUnit
@@ -38,6 +39,7 @@ public class Unit : MonoBehaviour, IUnit
     }
 
     public Transform HeadTransform => headTransform;
+    public Transform UnitTransform => transform;
 
     private Quaternion lookRotation = Quaternion.identity;
     public Quaternion LookRotation => lookRotation;

@@ -9,17 +9,19 @@ public class SpawnSystem : GameSystem, IUpdateSystem, IMapSystem
     List<SpawnPoint> spawnPointsInMap = new List<SpawnPoint>();
 
     // TODO: some kind of pending spawn data, just using a dummy int for now
-    Queue<int> pendingSpawns = new Queue<int>();
+    Queue<Participant> pendingSpawns = new Queue<Participant>();
 
     Dictionary<int, Participant> activeParticipants = new Dictionary<int, Participant>();
 
     private Signal<Participant> participantAddedSignal;
+    private Signal<Participant> participantSpawnedSignal;
 
     public SpawnSystem() { }
 
     protected override void Initialize()
     {
         participantAddedSignal = signalBus.GetSignal<Signal<Participant>>(ParticipantSystem.SignalParticipantAdded);
+        participantSpawnedSignal = signalBus.GetSignal<Signal<Participant>>(ParticipantSystem.SignalParticipantSpawned);
         participantAddedSignal.AddListener(OnParticipantAdded);
     }
 
@@ -40,14 +42,14 @@ public class SpawnSystem : GameSystem, IUpdateSystem, IMapSystem
 
     private void OnParticipantAdded(Participant participant)
     {
-        pendingSpawns.Enqueue(participant.Id);
+        pendingSpawns.Enqueue(participant);
     }
 
     public void OnUpdate()
     {
         while (pendingSpawns.Count > 0)
         {
-            int participantId = pendingSpawns.Dequeue();
+            Participant participant = pendingSpawns.Dequeue();
 
             // Choose random spawner
             SpawnPoint chosenSpawnPoint = null;
@@ -64,13 +66,15 @@ public class SpawnSystem : GameSystem, IUpdateSystem, IMapSystem
             {
                 GameObject spawnedUnitObject = chosenSpawnPoint.SpawnPrefab(config.characterPrefab);
                 IUnit unit = spawnedUnitObject.GetComponent<IUnit>();
-                participantSystem.GetParticipant(participantId).OnSpawn(unit);
+                participant.OnSpawn(unit);
 
                 GameObject cameraObject = Object.Instantiate(config.cameraPrefab,
                     unit.HeadPosition,
                     unit.LookRotation);
 
                 cameraObject.GetComponent<FirstPersonUnitCamera>().attachedUnit = unit;
+
+                participantSpawnedSignal.Dispatch(participant);
             }
         }
     }

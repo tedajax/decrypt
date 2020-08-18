@@ -1,0 +1,13 @@
+
+* hitscan bullets
+* projectile based bullets
+
+
+
+* make a gun
+* make a thing to shoot
+* make the thing to shoot move towards the player
+* make the thing to shoot have health
+* kill the thing to shoot when it loses all health
+
+

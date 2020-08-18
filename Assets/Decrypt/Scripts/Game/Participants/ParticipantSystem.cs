@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class ParticipantSystem : GameSystem, IAppSystem
 {
     public static readonly string SignalParticipantAdded = "ParticipantSystem.SignalParticipantAdded";
+    public static readonly string SignalParticipantSpawned = "ParticipantSystem.SignalParticipantSpawned";
 
     private List<Participant> activeParticipants = new List<Participant>();
 
