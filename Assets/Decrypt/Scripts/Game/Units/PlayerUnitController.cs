@@ -1,10 +1,22 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 
 [RequireComponent(typeof(UnitMovement))]
 public class PlayerUnitController : MonoBehaviour
 {
+    [SerializeField]
+    private InputAction moveInputAction;
+
+    [SerializeField]
+    private InputAction lookInputAction;
+
+    [SerializeField]
+    private InputAction jumpInputAction;
+
     private UnitMovement movement;
+
 
     public bool IsMouseLocked
     {
@@ -30,29 +42,36 @@ public class PlayerUnitController : MonoBehaviour
         movement = GetComponent<UnitMovement>();
     }
 
+    void OnEnable()
+    {
+        moveInputAction.Enable();
+        lookInputAction.Enable();
+        jumpInputAction.Enable();
+    }
+
+    void OnDisable()
+    {
+        moveInputAction.Disable();
+        lookInputAction.Disable();
+        jumpInputAction.Disable();
+    }
+
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F1) && Input.GetKey(KeyCode.LeftShift))
+        if (Keyboard.current.leftShiftKey.isPressed && Keyboard.current.f1Key.wasPressedThisFrame)
         {
             IsMouseLocked = false;
         }
-        else if (Input.GetMouseButtonDown(0))
+        else if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             IsMouseLocked = true;
         }
 
-        Vector2 movementInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        movementInput.Normalize();
-
-        Vector2 lookInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-
-        bool requestJump = Input.GetButtonDown("Jump");
-
         UnitMovementInput input = new UnitMovementInput
         {
-            movementAxes = movementInput,
-            lookAxes = lookInput,
-            requestJump = requestJump
+            movementAxes = moveInputAction.ReadValue<Vector2>(),
+            lookAxes = lookInputAction.ReadValue<Vector2>(),
+            requestJump = jumpInputAction.triggered,
         };
 
         movement.MovementInput = input;
